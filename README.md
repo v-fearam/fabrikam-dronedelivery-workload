@@ -35,7 +35,8 @@ az login
 ### Deploy the workload's prerequisites
 
 ```bash
-az deployment sub create --name workload-stamp-prereqs --location ${LOCATION} --template-file ./workload-stamp-prereqs.bicep
+az group create -n rg-shipping-dronedelivery -l ${LOCATION}
+az deployment group create -n workload-stamp -g rg-shipping-dronedelivery-${LOCATION} -f ./workload-stamp.bicep
 ```
 
 :book: This pre-flight Bicep template is creating a general purpose resource group  as well as one dedicated for the Azure Container Registry. Additionally five User Identites are provisioned as part of this too that will be later associated to every containerized microservice. This is because they will need Azure RBAC roles over the Azure KeyVault to read secrets in runtime. The resources will be created on the resouce group location and each resource group will contain the region as part of their names
